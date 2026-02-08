@@ -74,10 +74,10 @@ void insert(struct node** head, int new_value, int position) {
         next_node = cursor->next;
         allocate(head, 1);
         cursor->next->next = next_node;
+        deallocate(head,1);
     }
     cursor->value = new_value;
     cursor->is_node_empty = false;
-    deallocate(head,1);
 }
 
 void delete_node(struct node** head, int position) {
