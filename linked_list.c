@@ -105,25 +105,25 @@ void destroy(struct node** head) {
     }
 }
 
-void iterate(struct node* head) {
+void iterate(struct node** head) {
     int i = 0;
-    for(struct node* cursor = head; cursor != NULL; cursor=cursor->next) {
+    for(struct node* cursor = *head; cursor != NULL; cursor=cursor->next) {
         printf("#%d: %d\n", i, cursor->value);
         i++;
     }
 }
 
-int length(struct node* head) {
+int length(struct node** head) {
     int length = 0;
-    for(struct node* cursor = head; cursor != NULL; cursor=cursor->next) {
+    for(struct node* cursor = *head; cursor != NULL; cursor=cursor->next) {
         length++;
     }
     return length;
 }
 
-int search(struct node* head, int searched_value) {
+int search(struct node** head, int searched_value) {
     int amount = 0;
-    for(struct node* cursor = head; cursor != NULL; cursor=cursor->next) {
+    for(struct node* cursor = *head; cursor != NULL; cursor=cursor->next) {
         if(cursor->value == searched_value) {
             amount++;
         }
