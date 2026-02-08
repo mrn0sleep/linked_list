@@ -9,11 +9,13 @@ void allocate(struct node** head, int size) {
         if(*head == NULL) {
             *head = malloc(sizeof(**head));
             (*head)->value = 0;
+            (*head)->is_node_empty = true;
             (*head)->next = NULL;
             continue;
         }
         struct node* new_node = malloc(sizeof(*new_node));
         new_node->value = 0;
+        new_node->is_node_empty = true;
         new_node->next = NULL;
         
         struct node* cursor = *head;
@@ -45,19 +47,41 @@ void deallocate(struct node** head, int size) {
     }
 }
 
-void modify(struct node** head, int new_value, int position) {
+int length(struct node** head) {
+    int length = 0;
+    for(struct node* cursor = *head; cursor != NULL; cursor=cursor->next) {
+        if(cursor->is_node_empty == false) {
+        length++;
+        }
+    }
+    return length;
+}
+
+void insert(struct node** head, int new_value, int position) {
+    struct node* next_node;
     struct node* cursor = *head;
     for(int i = 0; i != position; i++) {
-        if(cursor->next == NULL) {
+        if(cursor->is_node_empty == true) {
+            break;
+        }
+        else if(cursor->next == NULL) {
             return;
         }
         cursor=cursor->next;
     }
+
+    if(cursor->is_node_empty == false) {
+        next_node = cursor->next;
+        allocate(head, 1);
+        cursor->next->next = next_node;
+    }
     cursor->value = new_value;
+    cursor->is_node_empty = false;
+    deallocate(head,1);
 }
 
 void delete_node(struct node** head, int position) {
-    struct node* next_address;
+    struct node* next_node;
     struct node* cursor = *head;
     if(position == 0) {
         if(cursor->next == NULL) {
@@ -65,9 +89,9 @@ void delete_node(struct node** head, int position) {
             *head = NULL;
             return;
         }
-        next_address = cursor->next;
+        next_node = cursor->next;
         free(*head);
-        *head = next_address;
+        *head = next_node;
         return;
     }
 
@@ -83,9 +107,9 @@ void delete_node(struct node** head, int position) {
         cursor->next = NULL;
         return;
     }
-    next_address = cursor->next->next;
+    next_node = cursor->next->next;
     free(cursor->next);
-    cursor->next = next_address;
+    cursor->next = next_node;
 }
 
 void destroy(struct node** head) {
@@ -111,14 +135,6 @@ void iterate(struct node** head) {
         printf("#%d: %d\n", i, cursor->value);
         i++;
     }
-}
-
-int length(struct node** head) {
-    int length = 0;
-    for(struct node* cursor = *head; cursor != NULL; cursor=cursor->next) {
-        length++;
-    }
-    return length;
 }
 
 int search(struct node** head, int searched_value) {

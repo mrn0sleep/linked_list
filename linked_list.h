@@ -7,13 +7,14 @@
 
 struct node {
     int value;
+    bool is_node_empty;
     struct node* next;
 };
 
 void allocate(struct node** head, int size);
 bool is_empty(struct node* head);
 void deallocate(struct node** head, int size);
-void modify(struct node** head, int new_value, int position);
+void insert(struct node** head, int new_value, int position);
 void delete_node(struct node** head, int position);
 void destroy(struct node** head);
 void iterate(struct node** head);

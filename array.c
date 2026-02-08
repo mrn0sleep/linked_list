@@ -6,6 +6,9 @@
 void initArray(DynamicArray *a, int cap) {
     // Di Array, ALLOCATE dilakukan sekali untuk satu blok besar
     a->data = (int *)malloc(cap * sizeof(int)); 
+    for(int i = 0; i < cap; i++){
+        a->data[i] = 0;
+    }
     a->size = 0;
     a->capacity = cap;
 }
