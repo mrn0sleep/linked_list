@@ -151,6 +151,9 @@ void destroy(struct node** head) {
 }
 
 void iterate(struct node** head) {
+    if (*head == NULL) {
+        return;
+    }
     int i = 0;
     for(struct node* cursor = *head; cursor->is_node_empty != true; cursor=cursor->next) {
         printf("#%d: %d\n", i, cursor->value);
